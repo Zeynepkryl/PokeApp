@@ -40,7 +40,7 @@ public class PokemonModels {
         this.name = name;
     }
 
-    public boolean isFavori() {
+    public boolean getFavori() {
         return isFavori;
     }
 

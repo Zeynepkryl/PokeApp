@@ -4,6 +4,7 @@ package com.example.pokeapp.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,6 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
 
         Glide.with(context)
                 .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonItem.getId() + ".png")
-
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.pokemonImageView);
@@ -78,48 +78,35 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
             nameTextView = itemView.findViewById(R.id.nameTextView);
             yildizView = itemView.findViewById(R.id.yildizView);
 
-
         }
 
         public void setData(Pokemon pokemonItem) {
             nameTextView.setText(pokemonItem.getName());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.clickItem(getAdapterPosition());
-                }
-            });
-            if (pokemonItem.isFavori())
-                yildizView.setBackgroundResource(R.drawable.ic_baseline_star_24);
+            System.out.println(pokemonItem.getFavori());
+
+            itemView.setOnClickListener(view -> listener.clickItem(getAdapterPosition()));
+            if (pokemonItem.getFavori())
+                yildizView.setImageResource(R.drawable.fullstar);
             else
-                yildizView.setBackgroundResource(R.drawable.ic_baseline_star_border_24);
+                yildizView.setImageResource(R.drawable.hollowwwstar);
 
-            yildizView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!pokemonItem.isFavori()){
-                        pokemonItem.setFavori(true);
-                        listener.onItemSavedClick(getAdapterPosition());
-                        yildizView.setBackgroundResource(R.drawable.ic_baseline_star_24);
+            yildizView.setOnClickListener(view -> {
 
-
-                    }
-                    else{
-                        pokemonItem.setFavori(false);
-                        listener.onDeletedClick(getAdapterPosition());
-                        yildizView.setBackgroundResource(R.drawable.ic_baseline_star_border_24);
-                    }
-                    pokemonItem.setFavori(!pokemonItem.isFavori());
-                    notifyDataSetChanged();
-
+                if (!pokemonItem.getFavori()){
+                    pokemonItem.setFavori(true);
+                    listener.onItemSavedClick(getAdapterPosition());
+                    yildizView.setImageResource(R.drawable.fullstar);
                 }
+                else{
+                    pokemonItem.setFavori(false);
+                    listener.onDeletedClick(getAdapterPosition());
+                    yildizView.setImageResource(R.drawable.hollowwwstar);
+                }
+                pokemonItem.setFavori(!pokemonItem.getFavori());
+                notifyDataSetChanged();
             });
-
-
         }
-
-
     }
 
     public interface PokemonListener {

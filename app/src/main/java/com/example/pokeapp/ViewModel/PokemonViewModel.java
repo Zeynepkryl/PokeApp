@@ -56,8 +56,9 @@ public class PokemonViewModel extends AndroidViewModel {
         pokemon1.setId(pokemon.getId());
         pokemon1.setName(pokemon.getName());
         pokemon1.setUrl(pokemon.getUrl());
+        pokemon1.setFavori(true);
 
-
+        System.out.println("favori: " + pokemon1.getFavori());
         repository.insertPokemon(pokemon1);
     }
 
@@ -67,6 +68,7 @@ public class PokemonViewModel extends AndroidViewModel {
         pokemon.setId(pokemon.getId());
         pokemon.setName(pokemon.getName());
         pokemon.setUrl(pokemon.getUrl());
+        pokemon.setFavori(false);
 
 
         repository.deletePokemon(pokemon1);
@@ -75,6 +77,10 @@ public class PokemonViewModel extends AndroidViewModel {
 
     public LiveData<List<Pokemon>> getAllPokemons() {
         return repository.getAllPokemon();
+    }
+
+    public LiveData<Pokemon> getFavoritePokemon(int id) {
+        return repository.getFavoritePokemon(id);
     }
 
 

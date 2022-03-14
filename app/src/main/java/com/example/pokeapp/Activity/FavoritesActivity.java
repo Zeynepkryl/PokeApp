@@ -1,15 +1,16 @@
 package com.example.pokeapp.Activity;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
+
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.pokeapp.Adapter.PokemonFavoritesAdapter;
 import com.example.pokeapp.Models.Pokemon;
@@ -35,7 +36,13 @@ public class FavoritesActivity extends AppCompatActivity {
         binding = ActivityFavoritesBinding.inflate(getLayoutInflater());
         pokemonList = new ArrayList<>();
         setContentView(binding.getRoot());
+
+        Button homeButton = findViewById(R.id.homebutton);
+        homeButton.setOnClickListener(view ->
+                startActivity(new Intent(FavoritesActivity.this, MainActivity.class))
+        );
         recyclerView = findViewById(R.id.favoritesRecyclerView);
+
 
         pokemonRepository = new PokemonRepository(getApplicationContext());
         viewModel = new PokemonFavoritesViewModel(getApplication(), pokemonRepository);
@@ -53,15 +60,12 @@ public class FavoritesActivity extends AppCompatActivity {
     }
 
     private void getFavoritesPokemon() {
-        viewModel.getAllPokemon().observe(this, new Observer<List<Pokemon>>() {
-            @Override
-            public void onChanged(List<Pokemon> pokemonListFromDb) {
-                pokemonList.clear();
-                pokemonList.addAll(pokemonListFromDb);
+        viewModel.getAllPokemon().observe(this, pokemonListFromDb -> {
+            pokemonList.clear();
+            pokemonList.addAll(pokemonListFromDb);
 
-                adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
 
-            }
         });
 
     }

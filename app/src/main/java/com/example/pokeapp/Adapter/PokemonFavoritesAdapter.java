@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pokeapp.Models.Pokemon;
 import com.example.pokeapp.R;
 import com.example.pokeapp.databinding.LayoutFavoritesItemPokemonsBinding;
@@ -20,7 +21,7 @@ import java.util.List;
 public class PokemonFavoritesAdapter extends RecyclerView.Adapter<PokemonFavoritesAdapter.ViewHolder> {
     private final Context context;
     private final List<Pokemon> pokemonList;
-    private static OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
 
     public PokemonFavoritesAdapter(Context context, List<Pokemon> pokemonList, OnItemClickListener listener) {
@@ -28,7 +29,6 @@ public class PokemonFavoritesAdapter extends RecyclerView.Adapter<PokemonFavorit
         this.pokemonList = pokemonList;
         this.listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -41,10 +41,7 @@ public class PokemonFavoritesAdapter extends RecyclerView.Adapter<PokemonFavorit
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pokemon pokemonItem = pokemonList.get(position);
         holder.setData(pokemonItem);
-
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -53,7 +50,7 @@ public class PokemonFavoritesAdapter extends RecyclerView.Adapter<PokemonFavorit
         return pokemonList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private LayoutFavoritesItemPokemonsBinding binding;
         ImageView pokemonImageView;
         TextView nameTextView;
@@ -62,12 +59,18 @@ public class PokemonFavoritesAdapter extends RecyclerView.Adapter<PokemonFavorit
             super(itemView);
             pokemonImageView = (ImageView) itemView.findViewById(R.id.favpokeImageView);
             nameTextView = itemView.findViewById(R.id.favnameTextView);
-
         }
 
         public void setData(Pokemon pokemon) {
             nameTextView.setText(pokemon.getName());
-          //  Glide.with(getApplicationContext()).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/" + pokemon + ".png").into(binding.favpokeImageView);
+            Glide.with(context).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.getId() + ".png")
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(pokemonImageView);
+
+            System.out.println("fav: " + pokemon.getFavori());
+            System.out.println("id" + pokemon.getId());
+
             itemView.setOnClickListener(view -> {
 
                 if (listener != null)

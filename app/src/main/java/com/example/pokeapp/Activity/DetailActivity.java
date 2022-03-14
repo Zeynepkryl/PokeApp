@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,11 +60,10 @@ public class DetailActivity extends AppCompatActivity {
 
         viewModel.getDetail(name).observe(this, pokemonDetail -> {
 
-            //ImageBindingAdapter.loadImage(binding.url, pokemonDetail.getUrl());
             binding.name.setText("" + pokemonDetail.getName());
             binding.height.setText("Height: " + String.valueOf(pokemonDetail.getHeight()));
             binding.weight.setText("Weight: " + String.valueOf(pokemonDetail.getWeight()));
-            Glide.with(getApplicationContext()).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/" + id + ".png").into(binding.url);
+            Glide.with(getApplicationContext()).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png").into(binding.url);
             System.out.println(url);
 
 

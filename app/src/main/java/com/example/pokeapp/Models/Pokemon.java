@@ -16,18 +16,19 @@ import java.io.Serializable;
 public class Pokemon {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int id;
+    public int id;
     @ColumnInfo(name = "url")
-    private String url;
+    public String url;
     @ColumnInfo(name = "name")
-    private String name;
+    public String name;
+    @ColumnInfo(name = "isFavori")
+    public boolean isFavori = false;
 
-    boolean isFavori = false;
-
-    public Pokemon(int id, String url, String name) {
+    public Pokemon(int id, String url, String name, boolean isFavori) {
         this.url = url;
         this.name = name;
         this.id = id;
+        this.isFavori = isFavori;
     }
 
     public Pokemon() {
@@ -60,11 +61,11 @@ public class Pokemon {
         this.url = url;
     }
 
-    public boolean isFavori() {
+    public Boolean getFavori() {
         return isFavori;
     }
 
-    public void setFavori(boolean favori) {
+    public void setFavori(Boolean favori) {
         isFavori = favori;
     }
 }
