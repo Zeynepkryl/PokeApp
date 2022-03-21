@@ -65,4 +65,13 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
+    //Palette
+    implementation 'androidx.palette:palette:1.0.0'
+
+    //Coil
+    implementation "io.coil-kt:coil:1.1.1"
+    implementation "com.google.accompanist:accompanist-coil:0.7.0"
+
+
+
 }

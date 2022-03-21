@@ -1,20 +1,24 @@
 package com.example.pokeapp.Activity;
 
+import android.graphics.Bitmap;
+
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.example.pokeapp.Models.PokemonDetail;
 import com.example.pokeapp.R;
-
 import com.example.pokeapp.ViewModel.PokemonDetailViewModel;
 
 import com.example.pokeapp.databinding.ActivityDetailBinding;
@@ -22,13 +26,12 @@ import com.example.pokeapp.databinding.ActivityDetailBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import coil.Coil;
+import coil.request.ImageRequest;
+import coil.target.Target;
+
 public class DetailActivity extends AppCompatActivity {
     ActivityDetailBinding binding;
-    TextView nameText;
-    TextView weightText;
-    TextView heightText;
-    ImageView url;
-    RecyclerView recyclerView;
     private PokemonDetailViewModel viewModel;
     private List<PokemonDetail> detailList;
 
@@ -43,132 +46,58 @@ public class DetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        nameText = findViewById(R.id.nameTextView);
-        url = findViewById(R.id.url);
-        weightText = findViewById(R.id.weight);
-        heightText = findViewById(R.id.height);
-        recyclerView = findViewById(R.id.pokemonList);
-
-
         detailList = new ArrayList<>();
         viewModel = new ViewModelProvider(this).get(PokemonDetailViewModel.class);
 
 
         String name = getIntent().getStringExtra("name");
-        int id = getIntent().getIntExtra("id",0);
-
+        int id = getIntent().getIntExtra("id", 0);
 
         viewModel.getDetail(name).observe(this, pokemonDetail -> {
 
-            binding.name.setText("" + pokemonDetail.getName());
-            binding.height.setText("Height: " + String.valueOf(pokemonDetail.getHeight()));
-            binding.weight.setText("Weight: " + String.valueOf(pokemonDetail.getWeight()));
-            Glide.with(getApplicationContext()).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png").into(binding.url);
-            System.out.println(url);
+            binding.name.setText(pokemonDetail.getName());
+            binding.baseExperience.setText(String.valueOf(pokemonDetail.getBaseExperience()));
+            binding.isDefault.setText(String.valueOf(pokemonDetail.getIsDefault()));
+            binding.locationAreaEncounters.setText(String.valueOf(pokemonDetail.getSpecies().getName()));
+            binding.weight.setText(String.valueOf(pokemonDetail.getWeight()));
+            binding.height.setText(String.valueOf(pokemonDetail.getHeight()));
 
+            Glide.with(getApplicationContext()).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png").into(binding.imgPokemon);
 
         });
 
+        Coil.enqueue(new ImageRequest.Builder(getApplicationContext())
+                .data("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png")
+                .target(new Target() {
+                    @Override
+                    public void onStart(@Nullable Drawable drawable) {
+
+                    }
+
+                    @Override
+                    public void onError(@Nullable Drawable drawable) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull Drawable drawable) {
+                        BitmapDrawable drawBitmap = (BitmapDrawable) drawable;
+                        Bitmap bmp = drawBitmap.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                        Palette.from(bmp).generate(p -> {
+                            if (p.getDominantSwatch() != null) {
+                                binding.imgPokemon.setBackground(getGradientDrawable(p.getDominantSwatch().getRgb()));
+                            }
+                        });
+                    }
+                }).build());
     }
+
+    private GradientDrawable getGradientDrawable(int color1) {
+        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{color1, ContextCompat.getColor(getApplicationContext(), R.color.white)});
+        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+        gradientDrawable.setCornerRadius(40f);
+        return gradientDrawable;
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        viewModel = new PokemonDetailViewModel(getApplication(), repository);
-        //  viewModel = new ViewModelProvider(this).get(PokemonViewModel.class);
-
-        binding.detailRecyclerview.setAdapter(adapter);
-        binding.detailRecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-
-        adapter = new PokemonDetailAdapter(getApplicationContext(), detailList);
-        Intent intent = getIntent();
-        String name = intent.getExtras().getString("name");
-        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();
-
-
-        viewModel.getDetail().observe(this, new Observer<List<PokemonDetail>>() {
-            @Override
-            public void onChanged(List<PokemonDetail> pokemonDetails) {
-                detailList.clear();
-                detailList.addAll(pokemonDetails);
-
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-         */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        viewModel.getAllDetail().observe(this, new Observer<List<PokemonDetail>>() {
-            @Override
-            public void onChanged(List<PokemonDetail> pokemonDetails) {
-
-            }
-        });
-
-
-         */
-
-
-
-
-

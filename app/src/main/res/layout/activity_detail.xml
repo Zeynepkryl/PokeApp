@@ -1,82 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/acikgri">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        app:cardCornerRadius="40dp"
+        app:cardMaxElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-            android:id="@+id/cardview"
-            android:layout_width="381dp"
+            android:id="@+id/cl_root"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/acikgri"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/img_pokemon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:contentDescription="Pokemon Image"
+                app:layout_constraintBottom_toTopOf="@+id/name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                android:layout_width="328dp"
-                android:layout_height="400dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#313131"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_pokemon"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/weight"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview_circle"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/base_experience"
+                app:layout_constraintEnd_toStartOf="@+id/height"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="Weight" />
+
+            <TextView
+                android:id="@+id/height"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview_circle"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/weight"
+                app:layout_constraintTop_toTopOf="@+id/weight"
+                tools:text="Height" />
+
+            <TextView
+                android:id="@+id/is_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_circle"
+                android:padding="8dp"
+                android:text="İs Default"
+                android:textAlignment="center"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/location_area_encounters"
+                app:layout_constraintEnd_toEndOf="@+id/base_experience"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/base_experience"
+                app:layout_constraintTop_toBottomOf="@+id/base_experience" />
+
+            <TextView
+                android:id="@+id/location_area_encounters"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_circle"
+                android:padding="8dp"
+                android:text="location_area_encounters"
+                android:textAlignment="center"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/is_default"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/is_default"
+                app:layout_constraintTop_toBottomOf="@+id/is_default" />
+
+            <TextView
+                android:id="@+id/base_experience"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_circle"
+                android:padding="8dp"
+                android:text="Base Experience"
+                android:textAlignment="center"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/is_default"
+                app:layout_constraintEnd_toEndOf="@+id/height"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/weight"
+                app:layout_constraintTop_toBottomOf="@+id/weight" />
 
 
-                <TextView
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="180dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="NAME"
-                    android:textAlignment="center"
-                    android:textSize="20dp" />
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/weight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="WEİGHT"
-                    android:textAlignment="center"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/height"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="HEİGHT"
-                    android:textAlignment="center"
-                    android:textSize="13dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:layout_margin="0dp"
-            android:id="@+id/url"
-            android:layout_width="250dp"
-            android:layout_height="200dp"
-            android:layout_alignTop="@+id/cardview"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="-50dp"
-            android:src="@drawable/ic_launcher_background">
-
-        </ImageView>
-
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

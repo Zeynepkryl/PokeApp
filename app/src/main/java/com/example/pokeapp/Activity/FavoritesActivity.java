@@ -1,14 +1,14 @@
 package com.example.pokeapp.Activity;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +18,7 @@ import com.example.pokeapp.R;
 import com.example.pokeapp.Repository.PokemonRepository;
 import com.example.pokeapp.ViewModel.PokemonFavoritesViewModel;
 import com.example.pokeapp.databinding.ActivityFavoritesBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +38,13 @@ public class FavoritesActivity extends AppCompatActivity {
         pokemonList = new ArrayList<>();
         setContentView(binding.getRoot());
 
-        Button homeButton = findViewById(R.id.homebutton);
-        homeButton.setOnClickListener(view ->
-                startActivity(new Intent(FavoritesActivity.this, MainActivity.class))
-        );
+        FloatingActionButton floatingActionButton = findViewById(R.id.homefloatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             startActivity(new Intent(FavoritesActivity.this,MainActivity.class));
+            }
+        });
         recyclerView = findViewById(R.id.favoritesRecyclerView);
 
 
@@ -69,5 +73,4 @@ public class FavoritesActivity extends AppCompatActivity {
         });
 
     }
-
 }

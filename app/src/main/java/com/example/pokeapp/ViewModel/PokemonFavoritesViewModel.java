@@ -18,16 +18,10 @@ public class PokemonFavoritesViewModel extends AndroidViewModel {
         super(application);
         this.repository = repository;
     }
-    public void insert(Pokemon pokemon){
-        repository.insertPokemon(pokemon);
-    }
-    public void delete(Pokemon pokemon){
-        repository.deletePokemon(pokemon);
-    }
-    public LiveData<List<Pokemon>> getAllPokemon(){
+
+    public LiveData<List<Pokemon>> getAllPokemon() {
         return repository.getAllPokemon();
     }
-
 
 
 }

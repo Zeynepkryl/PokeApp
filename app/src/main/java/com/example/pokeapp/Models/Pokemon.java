@@ -22,6 +22,7 @@ public class Pokemon {
     @ColumnInfo(name = "name")
     public String name;
     @ColumnInfo(name = "isFavori")
+
     public boolean isFavori = false;
 
     public Pokemon(int id, String url, String name, boolean isFavori) {

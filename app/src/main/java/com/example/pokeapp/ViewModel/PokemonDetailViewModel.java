@@ -2,11 +2,10 @@ package com.example.pokeapp.ViewModel;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.pokeapp.Models.PokemonDetail;
+import com.example.pokeapp.Models.Example;
 import com.example.pokeapp.data.Remote.ApiClient;
 import com.example.pokeapp.data.Remote.ApiService;
 
@@ -21,25 +20,22 @@ public class PokemonDetailViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public MutableLiveData<PokemonDetail> getDetail(String name) {
-        MutableLiveData<PokemonDetail> detailPokemon = new MutableLiveData<>();
+    public MutableLiveData<Example> getDetail(String name) {
+        MutableLiveData<Example> detailPokemon = new MutableLiveData<>();
         ApiService apiService = ApiClient.createApiClient().create(ApiService.class);
-        apiService.getPokemonDetail(name).enqueue(new Callback<PokemonDetail>() {
+        apiService.getPokemonDetail(name).enqueue(new Callback<Example>() {
             @Override
-            public void onResponse(Call<PokemonDetail> call, Response<PokemonDetail> response) {
+            public void onResponse(Call<Example> call, Response<Example> response) {
                 if (response.isSuccessful())
-                        detailPokemon.setValue(response.body());
-
+                    detailPokemon.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<PokemonDetail> call, Throwable t) {
-
+            public void onFailure(Call<Example> call, Throwable t) {
             }
         });
         return detailPokemon;
     }
-
 
 }
 

@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.pokeapp.Models.Pokemon;
-import com.example.pokeapp.Models.PokemonModel;
-import com.example.pokeapp.Models.PokemonModels;
 import com.example.pokeapp.Models.PokemonResponse;
 import com.example.pokeapp.Repository.PokemonRepository;
 import com.example.pokeapp.data.Remote.ApiClient;
@@ -31,13 +29,13 @@ public class PokemonViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<List<Pokemon>> getPokemonList() {
-        MutableLiveData<List<Pokemon>> pokemonList = new MutableLiveData<>();
+        MutableLiveData<List<Pokemon>> pokemonsList = new MutableLiveData<>();
         ApiService apiService = ApiClient.createApiClient().create(ApiService.class);
         apiService.getPokemons(20, 0).enqueue(new Callback<PokemonResponse>() {
             @Override
             public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
                 if (response.isSuccessful())
-                    pokemonList.setValue(response.body().getResults());
+                    pokemonsList.setValue(response.body().getResults());
 
             }
 
@@ -46,42 +44,30 @@ public class PokemonViewModel extends AndroidViewModel {
                 t.getMessage();
             }
         });
-        return pokemonList;
+        return pokemonsList;
 
     }
 
     public void insertPokemon(Pokemon pokemon) {
 
-        Pokemon pokemon1 = new Pokemon();
-        pokemon1.setId(pokemon.getId());
-        pokemon1.setName(pokemon.getName());
-        pokemon1.setUrl(pokemon.getUrl());
-        pokemon1.setFavori(true);
+        Pokemon insertPokemons = new Pokemon();
+        insertPokemons.setId(pokemon.getId());
+        insertPokemons.setName(pokemon.getName());
+        insertPokemons.setUrl(pokemon.getUrl());
 
-        System.out.println("favori: " + pokemon1.getFavori());
-        repository.insertPokemon(pokemon1);
+        repository.insertPokemon(insertPokemons);
     }
 
     public void deletePokemon(Pokemon pokemon) {
 
-        Pokemon pokemon1 = new Pokemon();
-        pokemon.setId(pokemon.getId());
-        pokemon.setName(pokemon.getName());
-        pokemon.setUrl(pokemon.getUrl());
-        pokemon.setFavori(false);
+        Pokemon deletePokemons = new Pokemon();
+        deletePokemons.setId(pokemon.getId());
+        deletePokemons.setName(pokemon.getName());
+        deletePokemons.setUrl(pokemon.getUrl());
 
-
-        repository.deletePokemon(pokemon1);
+        repository.deletePokemon(deletePokemons);
     }
 
-
-    public LiveData<List<Pokemon>> getAllPokemons() {
-        return repository.getAllPokemon();
-    }
-
-    public LiveData<Pokemon> getFavoritePokemon(int id) {
-        return repository.getFavoritePokemon(id);
-    }
 
 
 }

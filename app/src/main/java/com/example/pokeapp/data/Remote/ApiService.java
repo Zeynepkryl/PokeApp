@@ -1,8 +1,8 @@
 package com.example.pokeapp.data.Remote;
 
-import com.example.pokeapp.Models.PokemonDetail;
-import com.example.pokeapp.Models.PokemonDetailResponse;
+import com.example.pokeapp.Models.Example;
 import com.example.pokeapp.Models.PokemonResponse;
+import com.example.pokeapp.Models.Sprites;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,6 +14,6 @@ public interface ApiService {
     Call<PokemonResponse> getPokemons(@Query("limit") int limit, @Query("offset") int offset);
 
     @GET("pokemon/{name}")
-    Call<PokemonDetail> getPokemonDetail( @Path("name") String name);
+    Call<Example> getPokemonDetail(@Path("name") String name);
 
 }

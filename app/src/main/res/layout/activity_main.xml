@@ -2,40 +2,61 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/acikmavi"
     tools:context=".Activity.MainActivity">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokemonList"
-        android:layout_width="394dp"
-        android:layout_height="592dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="379dp"
+        android:layout_height="486dp"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/logoimageView"
+        app:layout_constraintVertical_bias="0.991" />
 
-    <Button
-        android:id="@+id/favbutton"
-        android:layout_width="91dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="672dp"
-        android:text="GO TO FAV"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <ImageView
+        android:id="@+id/logoimageView"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arkaplanpoke" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:background="@drawable/background_border"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/pokemonList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoimageView"
+        app:layout_constraintVertical_bias="0.78" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#A58E8E"
+        app:layout_constraintBottom_toTopOf="@+id/searchView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logoimageView"
+        app:layout_constraintVertical_bias="0.218"
+        app:srcCompat="@drawable/ic_baseline_favorite_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
