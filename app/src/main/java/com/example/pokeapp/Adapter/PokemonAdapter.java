@@ -15,31 +15,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pokeapp.Models.Pokemon;
 import com.example.pokeapp.R;
-import com.example.pokeapp.databinding.LayoutMainItemPokemonsBinding;
 
-import org.w3c.dom.Text;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import coil.Coil;
 import coil.request.ImageRequest;
 import coil.target.Target;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHolder> implements Filterable {
-    private final List<Pokemon> pokemonList;
+    List<Pokemon> pokemonList;
+    private List<Pokemon> filteredPokemonList;
     private final Context context;
     private final PokemonListener listener;
     Boolean isFavorites = true;
@@ -47,6 +41,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
 
     public PokemonAdapter(Context context, List<Pokemon> pokemonList, PokemonListener listener) {
         this.pokemonList = pokemonList;
+        this.filteredPokemonList = pokemonList;
         this.context = context;
         this.listener = listener;
     }
@@ -54,20 +49,14 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_main_item_pokemons, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pokemon_design, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Pokemon pokemonItem = pokemonList.get(position);
+        Pokemon pokemonItem = filteredPokemonList.get(position);
         holder.setData(pokemonItem);
-
-        Glide.with(context)
-                .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonItem.getId() + ".png")
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.pokemonImageView);
 
         Coil.enqueue(new ImageRequest.Builder(context)
 
@@ -93,6 +82,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
                             }
 
                         });
+                        holder.pokemonImageView.setImageDrawable(drawable);
                     }
                 }).build());
 
@@ -107,9 +97,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        if (pokemonList == null)
+        if (filteredPokemonList == null)
             return 0;
-        return pokemonList.size();
+        return filteredPokemonList.size();
     }
 
     @Override
@@ -120,33 +110,41 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.ViewHold
     private class PokemonFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             FilterResults results = new FilterResults();
+            List<Pokemon> pokemons = pokemonList;
+            int count = pokemons.size();
+            List<Pokemon> poke = new ArrayList<>(count);
+
             if (constraint == null || constraint.length() == 0) {
-                results.values = pokemonList;
-                results.count = pokemonList.size();
+                for (int i = 0; i < count; i++) {
+                    Pokemon tempPoke = pokemonList.get(i);
+                    poke.add(tempPoke);
+                }
             } else {
-                List<Pokemon> filteredPokemon = new ArrayList<>();
-                for (Pokemon name : pokemonList) {
-                    if (name.getName().toUpperCase().startsWith(constraint.toString().toUpperCase())) {
-                        filteredPokemon.add(name);
-                        results.values = filteredPokemon;
-                        results.count = filteredPokemon.size();
+                //filteredPokemonList.clear();
+                for (Pokemon pokemon : pokemonList) {
+                    if (pokemon.getName().toUpperCase().startsWith(constraint.toString().toUpperCase())) {
+                        poke.add(pokemon);
                     }
                 }
             }
+
+            results.count = poke.size();
+            results.values = poke;
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<Pokemon> filtered = (List<Pokemon>) results.values;
+            filteredPokemonList = (List<Pokemon>) results.values;
             notifyDataSetChanged();
         }
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LayoutMainItemPokemonsBinding binding;
+
         ConstraintLayout constraintLayoutRoot;
         ImageView pokemonImageView;
         TextView nameTextView;

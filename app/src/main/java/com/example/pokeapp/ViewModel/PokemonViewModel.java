@@ -33,14 +33,14 @@ public class PokemonViewModel extends AndroidViewModel {
         ApiService apiService = ApiClient.createApiClient().create(ApiService.class);
         apiService.getPokemons(20, 0).enqueue(new Callback<PokemonResponse>() {
             @Override
-            public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
+            public void onResponse(@NonNull Call<PokemonResponse> call, Response<PokemonResponse> response) {
                 if (response.isSuccessful())
                     pokemonsList.setValue(response.body().getResults());
 
             }
 
             @Override
-            public void onFailure(Call<PokemonResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<PokemonResponse> call, Throwable t) {
                 t.getMessage();
             }
         });

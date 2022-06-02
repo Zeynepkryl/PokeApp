@@ -1,19 +1,12 @@
 package com.example.pokeapp.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Insert;
 import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-
 @Entity(tableName = "Pokemons")
-public class Pokemon {
+public class Pokemon implements Cloneable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
@@ -68,6 +61,18 @@ public class Pokemon {
 
     public void setFavori(Boolean favori) {
         isFavori = favori;
+    }
+
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Pokemon clonnedPokemon = null;
+        try {
+            clonnedPokemon = (Pokemon) super.clone();
+        } catch (Exception e) {
+
+        }
+        return clonnedPokemon;
     }
 }
 

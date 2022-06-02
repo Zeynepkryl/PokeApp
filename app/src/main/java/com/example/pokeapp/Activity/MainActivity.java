@@ -2,7 +2,10 @@ package com.example.pokeapp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -32,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Pokemon> pokemons;
     private PokemonRepository repository;
     private RecyclerView recyclerView;
-    SearchView searchBar;
-
+    SearchView searchView;
 
 
     public MainActivity() {
@@ -44,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        searchBar = findViewById(R.id.searchView);
+        searchView = findViewById(R.id.searchView);
+        searchView.setQueryHint("Search...");
 
-        searchBar.setQueryHint("Search...");
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 adapter.getFilter().filter(s);
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
         FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,16 +108,13 @@ public class MainActivity extends AppCompatActivity {
         binding.pokemonList.setAdapter(adapter);
 
 
-        viewModel.getPokemonList().observe(this, new Observer<List<Pokemon>>() {
-            @Override
-            public void onChanged(List<Pokemon> poke) {
-                pokemons.clear();
-                pokemons.addAll(poke);
+        viewModel.getPokemonList().observe(this, poke -> {
+            pokemons.clear();
+            pokemons.addAll(poke);
 
-                adapter.notifyDataSetChanged();
-            }
+            adapter.notifyDataSetChanged();
         });
 
-
     }
+
 }

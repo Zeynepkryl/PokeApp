@@ -2,6 +2,7 @@ package com.example.pokeapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +36,7 @@ public class FavoritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFavoritesBinding.inflate(getLayoutInflater());
+
         pokemonList = new ArrayList<>();
         setContentView(binding.getRoot());
 
@@ -42,7 +44,7 @@ public class FavoritesActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             startActivity(new Intent(FavoritesActivity.this,MainActivity.class));
+                finish();
             }
         });
         recyclerView = findViewById(R.id.favoritesRecyclerView);
@@ -60,7 +62,7 @@ public class FavoritesActivity extends AppCompatActivity {
             }
         });
         binding.favoritesRecyclerView.setAdapter(adapter);
-        binding.favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        binding.favoritesRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     private void getFavoritesPokemon() {
